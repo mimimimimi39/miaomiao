@@ -278,6 +278,11 @@ export class QQWorld implements World {
     return this.config.mode === 'reverse' ? this.config.token : '';
   }
 
+  /** 容器部署里协议端在另一个主机上；环境变量优先于部署配置。 */
+  private effectiveWsUrl(): string {
+    return process.env.MIMI_NAPCAT_WS?.trim() || this.config.wsUrl;
+  }
+
   /**
    * 按**当前**配置新建 OneBot driver。连接类配置（模式/地址/端口/路径/Token）改了之后，
    * 靠 {@link restartConnection} 重建 driver 即可生效，不必整进程重启。
@@ -288,7 +293,7 @@ export class QQWorld implements World {
     this.ensureReverseToken();
     return new OneBotDriver({
       mode: this.config.mode,
-      wsUrl: this.config.wsUrl,
+      wsUrl: this.effectiveWsUrl(),
       wsHost: this.config.wsHost,
       wsPort: this.config.wsPort,
       wsPath: this.config.wsPath,
@@ -350,7 +355,7 @@ export class QQWorld implements World {
     const c = this.config;
     return c.mode === 'reverse'
       ? `reverse ${c.wsHost}:${c.wsPort}${c.wsPath}`
-      : `forward ${c.wsUrl}`;
+      : `forward ${this.effectiveWsUrl()}`;
   }
 
   async start(host: WorldHost): Promise<void> {
@@ -466,7 +471,9 @@ export class QQWorld implements World {
       const tmpOut = join(this.dataDir, `gifout_${stamp}.png`);
       writeFileSync(tmpIn, bytes);
       await new Promise<void>((resolve) => {
-        const p = spawn('python', ['C:\\AAA\\AiQQ\\tools\\gif_frames.py', tmpIn, tmpOut], { windowsHide: true });
+        const script = process.env.MIMI_GIF_FRAMES || join(process.cwd(), '..', 'tools', 'gif_frames.py');
+        const python = process.env.MIMI_PYTHON || (process.platform === 'win32' ? 'python' : 'python3');
+        const p = spawn(python, [script, tmpIn, tmpOut], { windowsHide: true });
         p.on('close', () => resolve());
         p.on('error', () => resolve());
       });
@@ -485,6 +492,7 @@ export class QQWorld implements World {
 
   /** QZONE 相关 action 优先走网页协议桥接（127.0.0.1:8090），失败再回退 NapCat。 */
   private async qzoneCallApi(action: string, params: Record<string, unknown>): Promise<unknown> {
+    const bridge = (process.env.MIMI_QZONE_BRIDGE || 'http://127.0.0.1:8090').replace(/\/+$/, '');
     const webActions = [
       'get_qzone_msg_detail',
       'comment_qzone',
@@ -497,7 +505,7 @@ export class QQWorld implements World {
     if (webActions.includes(action)) {
       for (let attempt = 0; attempt < 2; attempt++) {
         try {
-          const resp = await fetch('http://127.0.0.1:8090/call', {
+          const resp = await fetch(`${bridge}/call`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ action, params: params ?? {} }),
@@ -2221,7 +2229,7 @@ export class QQWorld implements World {
     if (this.config.imageTransport === 'path' || this.config.imageTransport === 'base64') return this.config.imageTransport;
     if (this.config.mode === 'reverse') return isLoopbackHost(this.config.wsHost) ? 'path' : 'base64';
     try {
-      return isLoopbackHost(new URL(this.config.wsUrl).hostname) ? 'path' : 'base64';
+      return isLoopbackHost(new URL(this.effectiveWsUrl()).hostname) ? 'path' : 'base64';
     } catch {
       return 'base64';
     }
@@ -2267,7 +2275,7 @@ export class QQWorld implements World {
 
   private protocolIsRemote(): boolean {
     if (this.config.mode === 'reverse') return !isLoopbackHost(this.config.wsHost);
-    try { return !isLoopbackHost(new URL(this.config.wsUrl).hostname); } catch { return true; }
+    try { return !isLoopbackHost(new URL(this.effectiveWsUrl()).hostname); } catch { return true; }
   }
 
   /** SnowLuma 支持的流式上传：让远程协议端先在自己的文件系统落盘，再调用 upload_*_file。 */

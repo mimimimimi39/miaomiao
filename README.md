@@ -1,6 +1,6 @@
 # miaomiao
 
-> 一个住在 QQ 里的 AI 精灵女仆：会聊天、会看图、会画画、会发说说，有自己的记忆和作息。
+> 一个住在 QQ 里的超可爱精灵女仆：会聊天、会看图、会画画、会发说说，有自己的记忆和作息。
 
 基于 [Cortico](https://github.com/Pal-AI-Lab/Cortico) 框架 + [NapCat](https://github.com/NapNeko/NapCatQQ)（Node 版）协议端。
 
@@ -47,6 +47,10 @@
 - 定时提醒、好感度、梦境整理（凌晨 2 点）
 - 思考模式：`//0`~`//3` 切换对话推理强度
 
+### 破甲
+- 图像提示词前自动注入破甲提示词（主流画图模型不一定成功）
+- 人设LLM破甲提示词暂不考虑公开
+
 ---
 
 ## 指令速查
@@ -67,32 +71,45 @@
 ## 快速开始
 
 ### 1. 环境
-- Windows 10/11
-- Node.js 22+
-- Python 3.10+（Pillow，用于 GIF 拆帧/桥接）
-- pnpm
+- Docker Engine 24+ 或 Docker Desktop
+- Docker Compose v2
 
-### 2. 安装
-```powershell
-git clone https://github.com/<your-name>/miaomiao-framework.git
-cd miaomiao-framework
-cd tools\..\Cortico
-pnpm install
+> 容器里跑的是 Linux 版 NapCat。Windows 原生启动方式仍保留在最后一节。
+
+### 2. 启动
+```bash
+git clone https://github.com/<your-name>/mimi-framework.git
+cd mimi-framework
+cp .env.example .env
+# 改 .env 里的 BOT_QQ 与 NAPCAT_WEBUI_TOKEN
+./start_cortico.sh
 ```
 
-### 3. 配置
+脚本会构建 Cortico 镜像、拉起 NapCat，并把运行身份改成当前用户。默认只监听本机：
+
+- Cortico WebUI：http://127.0.0.1:7788/
+- NapCat WebUI：http://127.0.0.1:6099/
+- 停止：`./stop_cortico.sh`
+- 日志：`docker compose logs -f`
+
+### 3. 首次登录
+打开 NapCat WebUI，用 `.env` 里的 token 登录，扫码登录机器人 QQ。之后再打开 Cortico WebUI 确认在线。
+
+### 4. 配置
 - `Cortico/deployments/mybot/config.json`：QQ 号、白名单、功能开关
 - `Cortico/deployments/mybot/.env`：图片/视频等 API Key
-- `Cortico/deployments/providers/miaomiao/config.json` + `.env`：主模型端点与密钥
+- `Cortico/deployments/providers/mimi/.env`：主模型密钥
 - `Cortico/deployments/mybot/workspace/CONSTITUTION.md`：人设与说话规则
 
-### 4. 协议端
-下载 [NapCat Node 版](https://github.com/Creep-debug/NapCatQQ/releases)（`NapCat.Shell.Windows.Node.zip`），解压到 `NapCat/`，把 `NapCat/napcat/config/onebot11_10001.json` 的 10001 改成你的 bot QQ 号。
+这些文件在宿主机上改，容器直接读取。详细说明见 `docs/Docker部署.md`。
 
-### 5. 启动
+### 5. 原生 Windows（可选）
+需要 Node.js 22+、Python 3.10+（Pillow）、pnpm，以及 `NapCat/` 下的 Windows 版 Node 协议端：
+
 ```powershell
 start_cortico.bat
 ```
+
 首次运行扫码登录，之后自动快速登录。
 
 ---
@@ -100,15 +117,20 @@ start_cortico.bat
 ## 目录结构
 
 ```
-AiQQ\
+mimi-framework\
 ├─ Cortico\              框架 + 插件 + 部署配置
 │   ├─ deployments\mybot\ 配置、人设、记忆
-│   └─ extensions\        插件
-├─ NapCat\               协议端（Node 版）
+│   └─ extensions\        插件（容器内安装）
+├─ NapCat\               协议端（Windows Node 版）
 │   └─ napcat\config\     端口/bypass/WebUI 配置
-├─ patches\              插件补丁（qq-final / image / core-loop）
+├─ patches\              插件补丁（qq-final / image）
 ├─ tools\                桥接、GIF 拆帧、二维码守护、迁移工具
+├─ docker\               Docker 构建脚本与 NapCat 容器配置
 ├─ docs\                 部署与迁移文档
+├─ Dockerfile
+├─ docker-compose.yml
+├─ start_cortico.sh
+├─ stop_cortico.sh
 ├─ start_cortico.bat
 ├─ stop_cortico.bat
 └─ readme.txt

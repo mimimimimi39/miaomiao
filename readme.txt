@@ -2,6 +2,26 @@
   miaomiao QQ 机器人  使用说明
 ========================================
 
+零、Docker 一键部署（推荐）
+----------------------------------------
+环境：Docker Engine 24+ / Docker Desktop，Docker Compose v2。
+
+1. cp .env.example .env
+2. 改 .env 里的 BOT_QQ 与 NAPCAT_WEBUI_TOKEN
+3. ./start_cortico.sh
+
+打开 http://127.0.0.1:6099/ 用 token 登录 NapCat 并扫码；
+再打开 http://127.0.0.1:7788/ 看 Cortico。
+
+停止：./stop_cortico.sh
+日志：docker compose logs -f
+说明：docs/Docker部署.md
+
+数据仍在 Cortico/deployments/ 与 docker/napcat/ 下。
+
+下面的一、二节是 Windows 原生启动方式，Docker 部署可跳过。
+
+
 一、快速开始
 ----------------------------------------
 启动：双击 <AiQQ>\start_cortico.bat
@@ -22,16 +42,22 @@
 AiQQ\
 ├─ Cortico\                 主程序（框架 + 插件 + 数据）
 │   ├─ deployments\mybot\    配置、人设、记忆、画作
-│   └─ extensions\           插件（含补丁版 qq-final / image）
-├─ NapCat\                  协议端（Node 版，自带 QQ 内核）
+│   └─ extensions\           插件（Docker 镜像内安装）
+├─ NapCat\                  协议端（Windows Node 版，自带 QQ 内核）
 │   ├─ napcat.bat            NapCat 启动脚本
+│   ├─ napcat.sh             Linux 下的等价入口
 │   └─ napcat\config\        NapCat 配置（端口/bypass/WebUI）
+├─ docker\                  Docker 构建脚本与容器版 NapCat 配置
 ├─ tools\                   运维工具（桥接/GIF/二维码守护/迁移）
 ├─ docs\                    迁移与补丁说明
 ├─ backups\                 关键备份（插件补丁、配置、人设）
 ├─ files\                   收到的文件（新版默认目录）
-├─ start_cortico.bat        一键启动
-├─ stop_cortico.bat         一键停止
+├─ Dockerfile               Cortico 镜像
+├─ docker-compose.yml       Cortico + NapCat 编排
+├─ start_cortico.sh         Docker 一键启动
+├─ stop_cortico.sh          Docker 一键停止
+├─ start_cortico.bat        Windows 一键启动
+├─ stop_cortico.bat         Windows 一键停止
 └─ readme.txt               本文件
 
 
