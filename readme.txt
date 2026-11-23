@@ -1,5 +1,5 @@
 ========================================
-  mimi QQ 机器人  使用说明
+  miaomiao QQ 机器人  使用说明
 ========================================
 
 一、快速开始
@@ -53,7 +53,7 @@ AiQQ\
   - 思考模式记录文件（重点目录）：
       <AiQQ>\Cortico\deployments\mybot\data\conv-effort.json
   - Provider 默认值（非对话行为）：
-      <AiQQ>\Cortico\deployments\providers\mimi\config.json
+      <AiQQ>\Cortico\deployments\providers\miaomiao\config.json
       字段 spec.reasoningEffort
 
 【群发言模式】
@@ -82,8 +82,8 @@ AiQQ\
 -------------------------  -------------------------------------------------------------
 主配置（开关/白名单/频率）     <AiQQ>\Cortico\deployments\mybot\config.json
 人设（说话方式/规则）          <AiQQ>\Cortico\deployments\mybot\workspace\CONSTITUTION.md
-模型端点（DeepSeek）           <AiQQ>\Cortico\deployments\providers\mimi\config.json
-DeepSeek 密钥                  <AiQQ>\Cortico\deployments\providers\mimi\.env
+模型端点（DeepSeek）           <AiQQ>\Cortico\deployments\providers\miaomiao\config.json
+DeepSeek 密钥                  <AiQQ>\Cortico\deployments\providers\miaomiao\.env
 出图/视频/搜索密钥             <AiQQ>\Cortico\deployments\mybot\.env
 思考模式记录（//N）            <AiQQ>\Cortico\deployments\mybot\data\conv-effort.json
 群模式记录                     <AiQQ>\Cortico\deployments\mybot\data\free-groups.json

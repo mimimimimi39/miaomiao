@@ -1,4 +1,4 @@
-# 迁移到 Windows 10 主机（mimi / AiQQ）
+# 迁移到 Windows 10 主机（miaomiao / AiQQ）
 
 ## 一、目标机准备
 

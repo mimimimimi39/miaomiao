@@ -1,7 +1,7 @@
 主配置（开关/频率/白名单）      <AiQQ>\Cortico\deployments\mybot\config.json
 人设（说话方式/规则）           <AiQQ>\Cortico\deployments\mybot\workspace\CONSTITUTION.md
-模型端点（DeepSeek）            <AiQQ>\Cortico\deployments\providers\mimi\config.json
-DeepSeek 密钥                   <AiQQ>\Cortico\deployments\providers\mimi\.env
+模型端点（DeepSeek）            <AiQQ>\Cortico\deployments\providers\miaomiao\config.json
+DeepSeek 密钥                   <AiQQ>\Cortico\deployments\providers\miaomiao\.env
 出图/搜索等密钥                 <AiQQ>\Cortico\deployments\mybot\.env
 聊天记忆 / 运行状态             <AiQQ>\Cortico\deployments\mybot\data\
 她画的图                        <AiQQ>\Cortico\deployments\mybot\data\images\
