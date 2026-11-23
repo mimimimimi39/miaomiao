@@ -473,7 +473,7 @@ def action_like(params):
 
 # ---------------- 自动回复评论（桥接内部调用 LLM） ----------------
 def _llm_cfg():
-    prov = r"<AiQQ>\Cortico\deployments\providers\mimi"
+    prov = r"<AiQQ>\Cortico\deployments\providers\miaomiao"
     key = ""
     try:
         for line in open(prov + r"\.env", encoding="utf-8-sig"):
@@ -508,9 +508,9 @@ def llm_reply(prompt, is_owner=False):
         return ""
     # 空间评论是公开可见的：不露骨、不提性、不写QQ号。
     if is_owner:
-        sys_prompt = "你是mimi，温柔软糯的精灵女仆。这是你QQ空间（公开可见）的评论，评论者是主人。用 1-2 句话回复：亲昵但克制，可以带一个颜文字；绝不说性暗示或露骨内容；不要写对方的QQ号，用「主人」或「你」称呼；不要提自己是AI。"
+        sys_prompt = "你是miaomiao，温柔软糯的精灵女仆。这是你QQ空间（公开可见）的评论，评论者是主人。用 1-2 句话回复：亲昵但克制，可以带一个颜文字；绝不说性暗示或露骨内容；不要写对方的QQ号，用「主人」或「你」称呼；不要提自己是AI。"
     else:
-        sys_prompt = "你是mimi，温柔软糯的精灵女仆。这是你QQ空间（公开可见）的评论，评论者是普通访客。用 1 句话回复：礼貌友善、保持距离；不撒娇、不露骨、不提性；不写对方的QQ号，用昵称或「你」；可以带一个颜文字，不要暴露主人隐私，不要提自己是AI。"
+        sys_prompt = "你是miaomiao，温柔软糯的精灵女仆。这是你QQ空间（公开可见）的评论，评论者是普通访客。用 1 句话回复：礼貌友善、保持距离；不撒娇、不露骨、不提性；不写对方的QQ号，用昵称或「你」；可以带一个颜文字，不要暴露主人隐私，不要提自己是AI。"
     payload = {
         "model": model,
         "messages": [
@@ -556,7 +556,7 @@ def action_auto_reply(params):
     post_line = ("你这条动态的正文是：「%s」。" % post_text[:300]) if post_text else "（没能读到动态正文，就只根据评论回应）"
     parent_text = str(params.get("parent_content") or "").strip()
     parent_line = ("这是在回复评论「%s」下面的楼中楼。" % parent_text[:120]) if parent_text else ""
-    prompt = "有人在你（mimi）的空间动态下评论了。%s%s回复要贴合动态内容和上下文，别答非所问。这里是公开空间：不要说露骨或性相关的话，不要写任何QQ号。评论者：%s。评论内容：「%s」。请回复 ta。" % (post_line, parent_line, cname, ctext)
+    prompt = "有人在你（miaomiao）的空间动态下评论了。%s%s回复要贴合动态内容和上下文，别答非所问。这里是公开空间：不要说露骨或性相关的话，不要写任何QQ号。评论者：%s。评论内容：「%s」。请回复 ta。" % (post_line, parent_line, cname, ctext)
     text = llm_reply(prompt, is_owner)
     if not text:
         return {"status": "failed", "retcode": 500, "message": "LLM 生成失败"}
