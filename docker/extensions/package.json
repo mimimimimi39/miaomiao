@@ -1,0 +1,13 @@
+{
+  "name": "mimi-extensions",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.28.6",
+  "dependencies": {
+    "cortico-bot-continuity": "0.8.3",
+    "cortico-provider-deepseek": "0.3.0",
+    "cortico-world-deepseek-usage": "0.1.1",
+    "cortico-world-image": "0.7.2",
+    "cortico-world-qq-final": "0.6.43"
+  }
+}
