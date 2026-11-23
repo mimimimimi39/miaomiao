@@ -95,7 +95,7 @@
     "image": {
       "enabled": true,
       "models": "[{\"name\": \"image2.6\", \"preset\": \"openai\", \"baseUrl\": \"https://hynu.horizoncode.cn/v1\", \"model\": \"gpt-image-2.6\", \"apiKeySecret\": \"IMAGE_API_KEY\", \"size\": \"1024x1024\", \"quality\": \"auto\", \"format\": \"png\", \"timeoutMs\": 120000, \"edit\": true}, {\"name\": \"grok-imagine\", \"preset\": \"openai\", \"baseUrl\": \"https://api.smilecodex.space/v1\", \"model\": \"grok-imagine-image-2.0\", \"apiKeySecret\": \"GROK_API_KEY\", \"size\": \"1024x1024\", \"quality\": \"auto\", \"format\": \"png\", \"timeoutMs\": 120000, \"edit\": false}]",
-      "baseUrl": "https://hynu.horizoncode.cn/v1",
+      "baseUrl": "<api端口>",
       "model": "gpt-image-2.6",
       "apiKeySecret": "IMAGE_API_KEY",
       "size": "1024x1024",

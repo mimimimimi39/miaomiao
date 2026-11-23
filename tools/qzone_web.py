@@ -4,21 +4,32 @@ QQ 空间网页协议桥接服务
 提供 OneBot 风格的 /call 接口，供 Cortico 插件调用。
 """
 
+import os
 import sys
 
-_log_file = open(r"<AiQQ>\tools\qzone_web.log", "a", encoding="utf-8", buffering=1)
+LOG_PATH = os.environ.get(
+    "QZONE_LOG",
+    os.path.join(os.path.dirname(os.path.abspath(__file__)), "qzone_web.log"),
+)
+try:
+    os.makedirs(os.path.dirname(LOG_PATH) or ".", exist_ok=True)
+    _log_file = open(LOG_PATH, "a", encoding="utf-8", buffering=1)
+except Exception:
+    _log_file = None
 
 
 class _Tee:
     def write(self, s):
         try:
-            _log_file.write(s)
+            if _log_file is not None:
+                _log_file.write(s)
         except Exception:
             pass
 
     def flush(self):
         try:
-            _log_file.flush()
+            if _log_file is not None:
+                _log_file.flush()
         except Exception:
             pass
 
@@ -40,8 +51,9 @@ from http.cookies import SimpleCookie
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 OPENER = urllib.request.build_opener(urllib.request.ProxyHandler({}))
-NAPCAT = "http://127.0.0.1:3000"
-PORT = 8090
+NAPCAT = os.environ.get("QZONE_NAPCAT_URL", "http://127.0.0.1:3000").rstrip("/")
+HOST = os.environ.get("QZONE_HOST", "127.0.0.1")
+PORT = int(os.environ.get("QZONE_PORT", "8090"))
 UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
 
 MSG_LIST_URL = "https://user.qzone.qq.com/proxy/domain/taotao.qq.com/cgi-bin/emotion_cgi_msglist_v6"
@@ -602,5 +614,5 @@ class Handler(BaseHTTPRequestHandler):
 
 
 if __name__ == "__main__":
-    print("qzone web bridge on 127.0.0.1:%d" % PORT, flush=True)
-    ThreadingHTTPServer(("127.0.0.1", PORT), Handler).serve_forever()
+    print("qzone web bridge on %s:%d" % (HOST, PORT), flush=True)
+    ThreadingHTTPServer((HOST, PORT), Handler).serve_forever()
