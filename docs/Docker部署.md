@@ -90,6 +90,14 @@ docker compose up -d
 
 Cortico 的数据在宿主机，重建容器不会丢。
 
+仓库推送 tag 时，`.github/workflows/docker-ghcr.yml` 会构建 `linux/amd64` 与 `linux/arm64` 镜像并推送到 `ghcr.io/<owner>/<repo>`。semver tag 同时生成主次版本与 `latest` 标签：
+
+```bash
+docker pull ghcr.io/<owner>/<repo>:latest
+```
+
+GHCR 包默认是私有的。要让别人直接拉取，在仓库的 Packages 页面把镜像可见性改成 public。
+
 ## 七、常见问题
 
 **Cortico 连不上 WebSocket。** 确认 NapCat 已扫码登录，且 `docker/napcat/config/onebot11_<QQ>.json` 的 3001 正向 WS 服务处于启用状态。容器内地址固定为 `ws://napcat:3001`，由 `MIMI_NAPCAT_WS` 传给插件。
