@@ -14,6 +14,10 @@ Cortico/deployments/mybot/data_backup_*/
 Cortico/deployments/mybot/memory/
 Cortico/deployments/mybot/files/
 Cortico/deployments/mybot/*.lnk
+Cortico/deployments/mybot/workspace/.git/
+Cortico/deployments/mybot/workspace/.gitignore
+Cortico/deployments/mybot/workspace/.gitattributes
+Cortico/deployments/mybot/workspace/state/
 Cortico/cortico_out.txt
 Cortico/napcat_out.txt
 tools/*.log
@@ -35,3 +39,10 @@ NapCat/napcat/native/
 NapCat/napcat/node_modules/
 NapCat/napcat/worker/
 NapCat/napcat/static/
+
+# Docker NapCat runtime state
+docker/napcat/config/*.json
+!docker/napcat/config/onebot11_10001.json
+docker/napcat/qq/
+docker/napcat/logs/
+docker/napcat/plugins/

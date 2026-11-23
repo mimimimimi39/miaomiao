@@ -1,0 +1,59 @@
+services:
+  napcat:
+    image: ${NAPCAT_IMAGE:-mlikiowa/napcat-docker:latest}
+    container_name: mimi-napcat
+    restart: unless-stopped
+    environment:
+      TZ: ${TZ:-Asia/Shanghai}
+      ACCOUNT: ${BOT_QQ:-10001}
+      NAPCAT_UID: ${NAPCAT_UID:-1000}
+      NAPCAT_GID: ${NAPCAT_GID:-1000}
+      WEBUI_TOKEN: ${NAPCAT_WEBUI_TOKEN:-mimi-napcat}
+      WS_ENABLE: "true"
+      MESSAGE_POST_FORMAT: array
+    ports:
+      - "${MIMI_BIND_HOST:-127.0.0.1}:${NAPCAT_WEBUI_PORT:-6099}:6099"
+    volumes:
+      - ./docker/napcat/config:/app/napcat/config
+      - ./docker/napcat/qq:/app/.config/QQ
+      - ./docker/napcat/plugins:/app/napcat/plugins
+      - ./docker/napcat/logs:/app/napcat/logs
+    networks:
+      - mimi
+
+  cortico:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: mimi-framework:local
+    container_name: mimi-cortico
+    restart: unless-stopped
+    init: true
+    depends_on:
+      - napcat
+    user: "${MIMI_UID:-1000}:${MIMI_GID:-1000}"
+    environment:
+      TZ: ${TZ:-Asia/Shanghai}
+      CORTICO_HOME: /app/Cortico/deployments
+      CORTICO_BOT: ${CORTICO_BOT:-mybot}
+      CORTICO_PORT: ${CORTICO_PORT:-7788}
+      CORTICO_START_PAUSED: "0"
+      CORTICO_OPEN_BROWSER: "0"
+      QZONE_BRIDGE_ENABLED: ${QZONE_BRIDGE_ENABLED:-1}
+      QZONE_NAPCAT_URL: http://napcat:3000
+      MIMI_NAPCAT_WS: ws://napcat:3001
+      MIMI_QZONE_BRIDGE: http://127.0.0.1:8090
+      MIMI_GIF_FRAMES: /app/tools/gif_frames.py
+      MIMI_PYTHON: python3
+    ports:
+      - "${MIMI_BIND_HOST:-127.0.0.1}:${CORTICO_PORT:-7788}:${CORTICO_PORT:-7788}"
+    volumes:
+      - ./Cortico/deployments:/app/Cortico/deployments
+      - ./tools:/app/tools:ro
+    stop_grace_period: 40s
+    networks:
+      - mimi
+
+networks:
+  mimi:
+    driver: bridge
