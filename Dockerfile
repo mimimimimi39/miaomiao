@@ -27,7 +27,7 @@ RUN pnpm install --frozen-lockfile
 
 COPY Cortico/ ./
 COPY docker/extensions/ ./extensions/
-RUN cd extensions && pnpm install --frozen-lockfile
+RUN cd extensions && pnpm install --frozen-lockfile --no-optional
 
 COPY patches/ /app/patches/
 RUN set -eux; \
