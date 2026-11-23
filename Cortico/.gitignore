@@ -7,7 +7,6 @@ __pycache__/
 
 # 默认部署根,包含私有配置、密钥、Memory 和运行数据。
 # scripts/release-audit.ts 另行检查已跟踪的部署文件。
-/deployments/
 
 # 旧布局的私有运行数据与备份。
 bots/*/data/
