@@ -1,4 +1,4 @@
-# mimi
+# miaomiao
 
 > 一个住在 QQ 里的 AI 精灵女仆：会聊天、会看图、会画画、会发说说，有自己的记忆和作息。
 
@@ -74,8 +74,8 @@
 
 ### 2. 安装
 ```powershell
-git clone https://github.com/<your-name>/mimi-framework.git
-cd mimi-framework
+git clone https://github.com/<your-name>/miaomiao-framework.git
+cd miaomiao-framework
 cd tools\..\Cortico
 pnpm install
 ```
@@ -83,7 +83,7 @@ pnpm install
 ### 3. 配置
 - `Cortico/deployments/mybot/config.json`：QQ 号、白名单、功能开关
 - `Cortico/deployments/mybot/.env`：图片/视频等 API Key
-- `Cortico/deployments/providers/mimi/config.json` + `.env`：主模型端点与密钥
+- `Cortico/deployments/providers/miaomiao/config.json` + `.env`：主模型端点与密钥
 - `Cortico/deployments/mybot/workspace/CONSTITUTION.md`：人设与说话规则
 
 ### 4. 协议端

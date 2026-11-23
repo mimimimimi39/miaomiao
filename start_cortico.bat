@@ -5,10 +5,10 @@ cd /d "%~dp0"
 netstat -ano | findstr ":3000 " | findstr LISTENING >nul
 if %errorlevel%==0 goto :napcat_ok
 
-echo [1/3] Æô¶¯ NapCat£¨Node °æ£¬ÎÞÐè UAC£©...
+echo [1/3]  NapCatNode æ£¬ UAC...
 start "" cmd /c "cd /d C:\AAA\AiQQ\NapCat && napcat.bat > C:\AAA\AiQQ\Cortico\napcat_out.txt 2>&1"
 powershell -NoProfile -Command "if (-not (Get-CimInstance Win32_Process | Where-Object { $_.Name -eq 'pythonw.exe' -and $_.CommandLine -like '*napcat_qr_watch*' })) { Start-Process pythonw -ArgumentList '%~dp0tools\napcat_qr_watch.py' -WindowStyle Hidden }" >nul 2>&1
-echo      µÈ´ý NapCat ÉÏÏß£¨Ê×´ÎÐèÉ¨Âë£©...
+echo      È´ NapCat ß£×´É¨ë£©...
 set /a n=0
 
 :waitnapcat
@@ -21,9 +21,9 @@ goto :waitnapcat
 
 :napcat_fail
 echo.
-echo [Ê§°Ü] NapCat Ã»ÓÐÉÏÏß£¬Çë¼ì²é£º
-echo   1. ÊÇ·ñÒÑÉ¨ÂëµÇÂ¼£¨¶þÎ¬ÂëÔÚ NapCat\napcat\cache\qrcode.png£©
-echo   2. ÈÕÖ¾£ºC:\AAA\AiQQ\Cortico\napcat_out.txt
+echo [Ê§] NapCat Ã»ß£é£º
+echo   1. Ç·É¨Â¼Î¬ NapCat\napcat\cache\qrcode.png
+echo   2. Ö¾C:\AAA\AiQQ\Cortico\napcat_out.txt
 pause
 exit /b 1
 
@@ -43,23 +43,23 @@ set no_proxy=*
 
 netstat -ano | findstr ":8090 " | findstr LISTENING >nul
 if errorlevel 1 (
-    echo [1.5/3] Æô¶¯¿Õ¼äÍøÒ³ÇÅ½Ó...
+    echo [1.5/3] Õ¼Ò³Å½...
     start "" pythonw "%~dp0tools\qzone_web.py"
     timeout /t 3 >nul
 )
 
-echo [2/3] Æô¶¯ Cortico...
+echo [2/3]  Cortico...
 start "" cmd /c "set PATH=C:\AAA\node\node-v22.23.5-win-x64;%PATH% && cd /d C:\AAA\AiQQ\Cortico && node bin/cortico.mjs mybot > C:\AAA\AiQQ\Cortico\cortico_out.txt 2>&1"
-echo      µÈ´ý WebUI ¾ÍÐ÷...
+echo      È´ WebUI ...
 timeout /t 25 >nul
 goto :resume
 
 :cortico_ok
-echo      Cortico ÒÑÔÚÔËÐÐ
+echo      Cortico 
 
 :resume
-echo [3/3] »Ö¸´ÊÂ¼þ´¦Àí...
+echo [3/3] Ö¸Â¼...
 curl -s --noproxy "*" -X POST http://127.0.0.1:7788/api/run/resume -H "Content-Type: application/json" -d "{}"
 echo.
-echo Íê³É£ºmimi ÒÑÉÏÏß¡£WebUI: http://127.0.0.1:7788/
+echo É£miaomiao ß¡WebUI: http://127.0.0.1:7788/
 pause
