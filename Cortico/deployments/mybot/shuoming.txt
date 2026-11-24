@@ -1,0 +1,12 @@
+主配置（开关/频率/白名单）      <AiQQ>\Cortico\deployments\mybot\config.json
+人设（说话方式/规则）           <AiQQ>\Cortico\deployments\mybot\workspace\CONSTITUTION.md
+模型端点（DeepSeek）            <AiQQ>\Cortico\deployments\providers\miaomiao\config.json
+DeepSeek 密钥                   <AiQQ>\Cortico\deployments\providers\miaomiao\.env
+出图/搜索等密钥                 <AiQQ>\Cortico\deployments\mybot\.env
+聊天记忆 / 运行状态             <AiQQ>\Cortico\deployments\mybot\data\
+她画的图                        <AiQQ>\Cortico\deployments\mybot\data\images\
+表情库                          <AiQQ>\Cortico\deployments\mybot\data\emoji\
+日记                            <AiQQ>\Cortico\deployments\mybot\data\diary-年-月.md
+运行日志                        <AiQQ>\Cortico\cortico_out.txt
+空间桥接服务                    <AiQQ>\tools\qzone_web.py
+插件本体                        <AiQQ>\Cortico\extensions\node_modules\

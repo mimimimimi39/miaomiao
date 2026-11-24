@@ -1,0 +1,16 @@
+{
+  "kind": "deepseek",
+  "baseUrl": "https://api.deepseek.com",
+  "secret": "DEEPSEEK_API_KEY",
+  "spec": {
+    "model": "deepseek-flash",
+    "thinking": true,
+    "reasoningEffort": "high",
+    "temperature": 0.85,
+    "maxTokens": 100000
+  },
+  "multimodal": true,
+  "options": {
+    "reasoningReplay": "plaintext"
+  }
+}

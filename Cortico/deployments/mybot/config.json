@@ -1,0 +1,224 @@
+{
+  "displayName": "miaomiao",
+  "activeProvider": "miaomiao",
+  "fallbackProvider": "grok",
+  "timezone": "Asia/Shanghai",
+  "language": "zh",
+  "web": {
+    "port": 7788
+  },
+  "worlds": {
+    "qqbot": {
+      "enabled": true,
+      "mode": "forward",
+      "wsUrl": "ws://127.0.0.1:3001",
+      "groups": [
+        "*"
+      ],
+      "privates": [
+        "*"
+      ],
+      "deliverImageAttachments": true,
+      "imageDir": "data/images",
+      "fileDir": "files",
+      "qzone": {
+        "enabled": true,
+        "tickSec": 6000,
+        "chancePerTick": 0.5,
+        "dailyQuota": 0,
+        "permission": 1,
+        "imageMode": "recent",
+        "autoReplyComments": {
+          "enabled": true,
+          "dailyQuota": 0,
+          "cooldownSec": 30
+        }
+      },
+      "proactive": {
+        "enabled": true,
+        "mode": "private",
+        "tickSec": 600,
+        "warmupMin": 10,
+        "stableChancePerTick": 0.11,
+        "warmupChance": 0.3,
+        "privateCooldownSec": 600,
+        "groupCooldownSec": 7200,
+        "unrepliedThreshold": 999,
+        "silentHours": 0,
+        "dailyQuota": 0,
+        "dedupWindow": 10,
+        "withNickname": true
+      },
+      "affinity": {
+        "enabled": true
+      },
+      "reminder": {
+        "enabled": true
+      },
+      "routine": {
+        "enabled": true,
+        "sleepStart": "00:00",
+        "sleepEnd": "08:00"
+      },
+      "groupSpeak": {
+        "enabled": false,
+        "maxPerWindow": 12,
+        "windowSec": 60
+      },
+      "antiLoop": {
+        "enabled": false
+      },
+      "voice": {
+        "enabled": true,
+        "provider": "native",
+        "asr": true,
+        "tts": true,
+        "audioFallback": true
+      },
+      "admin": {
+        "enabled": true
+      },
+      "sticker": {
+        "enabled": true,
+        "addToQQFavorites": true
+      },
+      "vision": {
+        "videoEnabled": true
+      },
+      "emojiDir": "data/images",
+      "guest_vision": true,
+      "owner": 10001,
+      "sentencesPerMessage": 2
+    },
+    "qq": {
+      "enabled": false
+    },
+    "image": {
+      "enabled": true,
+      "models": "[{\"name\": \"image2.6\", \"preset\": \"openai\", \"baseUrl\": \"https://hynu.horizoncode.cn/v1\", \"model\": \"gpt-image-2.6\", \"apiKeySecret\": \"IMAGE_API_KEY\", \"size\": \"1024x1024\", \"quality\": \"auto\", \"format\": \"png\", \"timeoutMs\": 120000, \"edit\": true}, {\"name\": \"grok-imagine\", \"preset\": \"openai\", \"baseUrl\": \"https://api.smilecodex.space/v1\", \"model\": \"grok-imagine-image-2.0\", \"apiKeySecret\": \"GROK_API_KEY\", \"size\": \"1024x1024\", \"quality\": \"auto\", \"format\": \"png\", \"timeoutMs\": 120000, \"edit\": false}]",
+      "baseUrl": "https://hynu.horizoncode.cn/v1",
+      "model": "gpt-image-2.6",
+      "apiKeySecret": "IMAGE_API_KEY",
+      "size": "1024x1024",
+      "timeoutMs": 120000,
+      "saveDir": "data/images",
+      "keep": 200
+    },
+    "diary": {
+      "enabled": true,
+      "author": "mimi"
+    },
+    "deepseek-usage": {
+      "enabled": true,
+      "accounts": [
+        {
+          "id": "main",
+          "label": "DeepSeek",
+          "warnBelow": 1
+        }
+      ]
+    },
+    "websearch": {
+      "enabled": true,
+      "provider": "deepseek",
+      "country": "CN",
+      "searchLang": "zh-hans",
+      "uiLang": "zh-CN",
+      "safesearch": "moderate",
+      "timeoutMs": 20000
+    }
+  },
+  "subagents": {
+    "permissions": {
+      "memory": {
+        "enabled": true,
+        "tools": {
+          "read_file": true,
+          "write_file": false,
+          "edit_file": false,
+          "append_file": false,
+          "delete_file": false,
+          "move_file": false,
+          "list_files": true,
+          "glob_files": true,
+          "grep_files": true,
+          "save_blob": false
+        }
+      },
+      "console": {
+        "enabled": true,
+        "tools": {
+          "console_send": false
+        }
+      },
+      "websearch": {
+        "enabled": true,
+        "tools": {
+          "web_search": true
+        }
+      },
+      "deepseek-usage": {
+        "enabled": true,
+        "tools": {
+          "deepseek_usage_check": true,
+          "deepseek_usage_add_account": false,
+          "deepseek_usage_edit_account": false,
+          "deepseek_usage_set_schedule": false
+        }
+      },
+      "diary": {
+        "enabled": true,
+        "tools": {
+          "diary_write": false,
+          "diary_list": true,
+          "diary_read": true,
+          "diary_search": true
+        }
+      },
+      "image": {
+        "enabled": true,
+        "tools": {
+          "image_draw": false,
+          "image_edit": false,
+          "image_gallery": true,
+          "image_show": false
+        }
+      },
+      "qqbot": {
+        "enabled": true,
+        "tools": {
+          "qq_forward_by_id": false,
+          "qq_send": false,
+          "qq_confirm_send": false,
+          "qq_view_image": true,
+          "qq_image": false,
+          "qq_file": false,
+          "qq_sticker_stats": true,
+          "qq_sticker_to_favorites": false,
+          "qq_sticker_tag": false,
+          "qq_proactive": false,
+          "qq_qzone": false,
+          "qq_poke": false,
+          "qq_reminder": false,
+          "qq_admin": false,
+          "qq_history": true,
+          "qq_add_face": false,
+          "web_fetch": false,
+          "qq_video": false,
+          "qq_group_mode": false
+        }
+      }
+    }
+  },
+  "paths": {
+    "memory": "workspace",
+    "data": "data"
+  },
+  "context": {
+    "maxTokens": 48000,
+    "softRatio": 0.85,
+    "keepRatio": 0.33,
+    "firstTurn": false,
+    "keepPastThinking": true
+  }
+}

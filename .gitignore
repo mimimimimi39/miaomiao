@@ -1,0 +1,48 @@
+# secrets
+**/.env
+!**/.env.example
+
+# deps / caches
+**/node_modules/
+**/__pycache__/
+**/.cache/
+Cortico/dist/
+
+# runtime data
+Cortico/deployments/mybot/data/
+Cortico/deployments/mybot/data_backup_*/
+Cortico/deployments/mybot/memory/
+Cortico/deployments/mybot/files/
+Cortico/deployments/mybot/*.lnk
+Cortico/deployments/mybot/workspace/.git/
+Cortico/deployments/mybot/workspace/.gitignore
+Cortico/deployments/mybot/workspace/.gitattributes
+Cortico/deployments/mybot/workspace/state/
+Cortico/cortico_out.txt
+Cortico/napcat_out.txt
+tools/*.log
+*.zip
+*.reg
+
+# NapCat binaries (large, re-download)
+NapCat/*.dll
+NapCat/*.exe
+NapCat/*.node
+NapCat/*.db
+NapCat/*.db-shm
+NapCat/*.db-wal
+NapCat/beacon_report.log
+NapCat/win64/
+NapCat/napcat/cache/
+NapCat/napcat/logs/
+NapCat/napcat/native/
+NapCat/napcat/node_modules/
+NapCat/napcat/worker/
+NapCat/napcat/static/
+
+# Docker NapCat runtime state
+docker/napcat/config/*.json
+!docker/napcat/config/onebot11_10001.json
+docker/napcat/qq/
+docker/napcat/logs/
+docker/napcat/plugins/
