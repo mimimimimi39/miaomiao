@@ -238,6 +238,54 @@ export function buildOutgoing(text: string, emojiDir = '', imageDir = '', imageT
   return segments;
 }
 
+const SENTENCE_STOPS = new Set(['。', '！', '？', '!', '?', '\n']);
+/** 成对括号；尖括号不收，`>_<` 这类颜文字会把后半段永远当成括号内。 */
+const BRACKET_PAIRS = new Map([
+  ['(', ')'], ['（', '）'], ['[', ']'], ['［', '］'], ['{', '}'], ['｛', '｝'],
+  ['《', '》'], ['「', '」'], ['『', '』'], ['【', '】'], ['〔', '〕'], ['〖', '〗'],
+]);
+
+/** `text[start]` 若是开括号，返回同类闭合括号的下标；找不到配对返回 -1。 */
+function matchBracket(text: string, start: number): number {
+  const open = text[start];
+  const close = BRACKET_PAIRS.get(open);
+  if (!close) return -1;
+  let depth = 0;
+  for (let i = start; i < text.length; i++) {
+    if (text[i] === open) depth += 1;
+    else if (text[i] === close) {
+      depth -= 1;
+      if (depth === 0) return i;
+    }
+  }
+  return -1;
+}
+
+/** 只在配对括号外的真正句末标点处分句；颜文字/括号里的标点不拆。 */
+function splitTextAtSentenceEnd(text: string): string[] {
+  const out: string[] = [];
+  let start = 0;
+  for (let i = 0; i < text.length; i++) {
+    const char = text[i];
+    const close = matchBracket(text, i);
+    if (close !== -1) {
+      // 整段括号当作句内内容，里面的句号/分号不拆。
+      i = close;
+      continue;
+    }
+    if (!SENTENCE_STOPS.has(char)) continue;
+    let end = i + 1;
+    while (end < text.length && SENTENCE_STOPS.has(text[end])) end += 1;
+    const sentence = text.slice(start, end).trim();
+    if (sentence) out.push(sentence);
+    start = end;
+    i = end - 1;
+  }
+  const tail = text.slice(start).trim();
+  if (tail) out.push(tail);
+  return out;
+}
+
 export interface SplitReplyOptions {
   /** 是否按句拆分（false 则整段作为一条）。 */
   splitBySentence: boolean;
@@ -249,7 +297,8 @@ export interface SplitReplyOptions {
 
 /**
  * 把构建好的发送段拆成多条消息（对齐 fat-fish split_text_segments_by_sentence
- * + split_text_and_images）：文字按句标点拆分，face 跟随最后一条，image 独立成条；
+ * + split_text_and_images）：文字只在括号外的句号/问号/感叹号/换行处分句，
+ * 分号不再自动分条，颜文字和括号里的标点不拆；face 跟随最后一条，image 独立成条；
  * 单条仍超 maxBytes 时再按字节硬切。splitBySentence=false 则整体一条。
  */
 export function splitReplyIntoMessages(segments: OneBotSegment[], opts: SplitReplyOptions): OneBotSegment[][] {
@@ -266,10 +315,7 @@ export function splitReplyIntoMessages(segments: OneBotSegment[], opts: SplitRep
         .map((s) => (s.data as { text?: string }).text ?? '')
         .join('');
       const faces = textParts.filter((s) => s.type === 'face');
-      const sentences = fullText
-        .split(/(?<=[。！？!?；;])/)
-        .map((s) => s.trim())
-        .filter(Boolean);
+      const sentences = splitTextAtSentenceEnd(fullText);
       if (sentences.length <= 1) {
         groups.push(textParts);
       } else {
