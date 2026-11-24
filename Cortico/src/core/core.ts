@@ -711,6 +711,7 @@ export class Core<C extends CoreConfig = CoreConfig> {
         && this.bus.promote((it) => it.event?.cursor === cursor && it.event.source === mod.id, trigger),
       modelFacts: this.modelFacts(),
       selectProvider: (alias) => this.selectProvider(alias),
+      clearSession: () => this.loop.clearSession(),
       blob: (handle) => this.resolveBlob(handle),
       reportUsage: (usage, opts) => {
         if (lease.active) this.reportWorldUsage(mod.id, usage, opts);

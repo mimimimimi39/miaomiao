@@ -1,8 +1,20 @@
-# miaomiao
+# miaomiao v1.0
 
 > 一个住在 QQ 里的超可爱精灵女仆：会聊天、会看图、会画画、会发说说，有自己的记忆和作息。
 
 基于 [Cortico](https://github.com/Pal-AI-Lab/Cortico) 框架 + [NapCat](https://github.com/NapNeko/NapCatQQ)（Node 版）协议端。
+
+当前版本：**v1.0.0**（2026-11-24）。
+
+---
+
+## v1.0.0
+
+- 保留 Docker Compose 一键部署（`./start_cortico.sh`）和 Windows 一键启动（`start_cortico.bat`）。
+- Windows 脚本改为仓库相对路径，Node.js 从 PATH 读取，不再写死本机绝对路径。
+- 人设年龄统一为 18 岁；主人私聊新增 `//clear` / `//清空`。
+- QZone 评论轮询跳过空 `tid`，避免失败记录反复报错。
+- 内部 Cortico 框架版本见 `Cortico/package.json`。
 
 ---
 
@@ -43,7 +55,7 @@
 - 长期记忆：人设 + 笔记 + 日记，跨重启保留
 - 短期记忆：对话上下文，满了自动交接；可手动清除
 - 主动搭话：按时段问候（早/午/晚/深夜），可配图
-- AI 作息：00:00 睡 / 08:00 起
+- AI 作息：01:00 睡 / 08:00 起；10:00 早安
 - 定时提醒、好感度、梦境整理（凌晨 2 点）
 - 思考模式：`//0`~`//3` 切换对话推理强度
 
@@ -61,6 +73,7 @@
 | `//1` | 对话思考模式：low |
 | `//2` | 对话思考模式：high |
 | `//3` | 对话思考模式：max |
+| `//clear` / `//清空` | 仅主人私聊；清空当前 session，保留系统前缀、日记和长期记忆 |
 | 「你在X群安静点」 | 该群只收 @ 消息，其他全不推 |
 | 「在X群自由发言」 | 该群不 @ 也接话（静默 3 秒防打断） |
 
@@ -104,13 +117,13 @@ cp .env.example .env
 这些文件在宿主机上改，容器直接读取。详细说明见 `docs/Docker部署.md`。
 
 ### 5. 原生 Windows（可选）
-需要 Node.js 22+、Python 3.10+（Pillow）、pnpm，以及 `NapCat/` 下的 Windows 版 Node 协议端：
+需要 Node.js 22+、Python 3.10+（Pillow），以及 `NapCat/` 下的 Windows 版 Node 协议端。把 NapCat.Shell.Windows.Node.zip 解压到 `NapCat/`，确保存在 `NapCat\napcat.bat`。Node 从 PATH 读取，不再写死本机路径：
 
 ```powershell
 start_cortico.bat
 ```
 
-首次运行扫码登录，之后自动快速登录。
+停止用 `stop_cortico.bat`，重启用 `tools\restart_mimi.bat`。首次运行扫码登录，之后自动快速登录。
 
 ---
 
@@ -124,7 +137,7 @@ mimi-framework\
 ├─ NapCat\               协议端（Windows Node 版）
 │   └─ napcat\config\     端口/bypass/WebUI 配置
 ├─ patches\              插件补丁（qq-final / image）
-├─ tools\                桥接、GIF 拆帧、二维码守护、迁移工具
+├─ tools\                桥接、GIF 拆帧、启动/迁移辅助
 ├─ docker\               Docker 构建脚本与 NapCat 容器配置
 ├─ docs\                 部署与迁移文档
 ├─ Dockerfile
@@ -133,6 +146,8 @@ mimi-framework\
 ├─ stop_cortico.sh
 ├─ start_cortico.bat
 ├─ stop_cortico.bat
+├─ VERSION
+├─ CHANGELOG.md
 └─ readme.txt
 ```
 

@@ -740,6 +740,8 @@ export interface WorldHost {
    * 也可以是端点类型或模型名前缀（如 deepseek / grok）。旧宿主可省略。
    */
   selectProvider?(alias: string): Promise<{ name: string; model: string }>;
+  /** 清空主 session 并重建 system 前缀；进行中的批次结束后执行。 */
+  clearSession?(): Promise<void>;
   /** Persona 未实现、全局关闭或宿主未接入时为 undefined。 */
   cognition?: CognitionHost;
   log: Logger;

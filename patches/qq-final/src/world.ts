@@ -1508,6 +1508,23 @@ export class QQWorld implements World {
         }, { deliver: false });
         return;
       }
+      // 主人发 //clear：清空主 session（保留人设前缀）。
+      const clearCmd = /^\/\/(clear|清空)$/i.exec(cmdText);
+      if (clearCmd) {
+        const clearSession = host.clearSession;
+        if (!clearSession) {
+          const text = '[系统] 当前 Core 不支持清空上下文。';
+          await this.sendTo(conv.address, text);
+          void host.pushEvent({ type: 'qq.system', origin: 'internal', source: SOURCE, text, senderKey: conv.address }, { deliver: false });
+          return;
+        }
+        this.log.info('主人清空上下文');
+        const text = '[系统] 上下文已清空，下一条消息会从新 session 开始喵～';
+        await this.sendTo(conv.address, text);
+        void host.pushEvent({ type: 'qq.system', origin: 'internal', source: SOURCE, text, senderKey: conv.address }, { deliver: false });
+        void clearSession.call(host).catch((e) => this.log.warn('清空上下文失败', { err: String(e) }));
+        return;
+      }
       // 主人发 //grok / //deepseek：切换主模型端点，并写回部署 config.json。
       const providerCmd = /^\/\/(grok|deepseek)$/i.exec(cmdText);
       if (providerCmd) {

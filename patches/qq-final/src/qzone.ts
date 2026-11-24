@@ -470,6 +470,7 @@ export class QZonePoster {
     const posts = (this.state.lastPosts || []).slice(0, 2);
     if (!posts.length) return;
     for (const post of posts) {
+      if (!post.tid) continue;
       await new Promise((r) => setTimeout(r, 3000));
       const r = await this.getDetail(post.tid).catch((e) => {
         this.log.warn('评论轮询 detail 异常', { tid: post.tid, err: String(e) });
