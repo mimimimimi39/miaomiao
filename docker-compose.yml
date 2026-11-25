@@ -25,7 +25,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: mimi-framework:local
+    image: miaomiao:local
     container_name: mimi-cortico
     restart: unless-stopped
     init: true

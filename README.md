@@ -112,8 +112,8 @@
 
 ### 2. 启动
 ```bash
-git clone https://github.com/<your-name>/mimi-framework.git
-cd mimi-framework
+git clone https://github.com/<your-name>/miaomiao.git
+cd miaomiao
 cp .env.example .env
 # 改 .env 里的 BOT_QQ 与 NAPCAT_WEBUI_TOKEN
 ./start_cortico.sh
@@ -151,7 +151,7 @@ start_cortico.bat
 ## 目录结构
 
 ```
-mimi-framework\
+miaomiao\
 ├─ Cortico\              框架 + 插件 + 部署配置
 │   ├─ deployments\mybot\ 配置、人设、记忆
 │   └─ extensions\        插件（容器内安装）

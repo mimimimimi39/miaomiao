@@ -53,7 +53,7 @@ jobs:
             type=semver,pattern={{major}}
             type=raw,value=latest,enable=${{ startsWith(github.ref_name, 'v') }}
           labels: |
-            org.opencontainers.image.title=mimi-framework
+            org.opencontainers.image.title=miaomiao
             org.opencontainers.image.description=mimi QQ bot: Cortico + NapCat
             org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
 
