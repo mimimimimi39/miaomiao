@@ -1,6 +1,8 @@
-# miaomiao v1.0
+# miaomiao
 
-> 一个住在 QQ 里的超可爱精灵女仆：会聊天、会看图、会画画、会发说说，有自己的记忆和作息。
+> 一个住在 QQ 里的超可爱精灵女仆，以mimi为蓝本搭建，语气提示词已优化。
+> 会聊天、看图、画画、发说说，还有着自己的记忆和作息。
+> 多模态，支持多llm及思考程度快捷切换与发图暗示及各种使用上的优化。
 
 基于 [Cortico](https://github.com/Pal-AI-Lab/Cortico) 框架 + [NapCat](https://github.com/NapNeko/NapCatQQ)（Node 版）协议端。
 
@@ -10,7 +12,8 @@
 
 ## v1.0.3
 
-- 公开人设移除成人向内容和画图越狱提示，只保留适合公开展示的部分。
+- 公开人设移除破甲和画图越狱提示，只保留适合公开展示的部分。
+- ps：如对相关提示词有所需求请前往(https://github.com/mimimimimi39/Prompt_Engineering)自行选择添加。
 
 ---
 
@@ -79,8 +82,7 @@
 - 思考模式：`//0`~`//3` 切换对话推理强度
 
 ### 破甲
-- 图像提示词前自动注入破甲提示词（主流画图模型不一定成功）
-- 人设LLM破甲提示词暂不考虑公开
+- 破甲提示词请自行注入，也可前往(https://github.com/mimimimimi39/Prompt_Engineering)自行选择添加。
 
 ---
 
