@@ -6,7 +6,14 @@
 
 基于 [Cortico](https://github.com/Pal-AI-Lab/Cortico) 框架 + [NapCat](https://github.com/NapNeko/NapCatQQ)（Node 版）协议端。
 
-当前版本：**v1.0.3**（2026-11-25）。
+当前版本：**v1.0.4**（2026-11-25）。
+
+---
+
+## v1.0.4
+
+- QQ 空间动态读取改走 SnowLuma 原生接口，网页桥接登录过期时不再返回空列表。
+- 动态列表逐条输出，文本改用说说正文，不再被第一条截断。
 
 ---
 

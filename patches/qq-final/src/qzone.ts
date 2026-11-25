@@ -333,13 +333,16 @@ export class QZonePoster {
     // driver.callApi 已解包：raw 即 data（{ feeds, has_more }）；feed 句柄字段是 key（非 tid）。
     const data = (raw ?? {}) as { feeds?: Array<Record<string, unknown>>; has_more?: boolean };
     // 条目含 HTML 片段，剥标签给模型可读文本；tid 映射为 key 供评论/点赞/删除动作定位该动态。
-    const feeds = (data.feeds ?? []).map((f) => ({
+    const feeds = (data.feeds ?? []).filter((f) => Number(f.uin) > 0).map((f) => ({
       tid: f.key,
       uin: f.uin,
       nickname: f.nickname,
       time: f.time,
       appid: f.appid,
-      text: typeof f.html === 'string' ? QZonePoster.stripHtml(String(f.html)) : (typeof f.content === 'string' ? f.content : ''),
+      text: (typeof f.content === 'string' && f.content.trim()
+        ? f.content
+        : typeof f.html === 'string' ? QZonePoster.stripHtml(String(f.html)) : ''
+      ).trim().slice(0, 300),
     }));
     return { ok: true, feeds, hasMore: !!data.has_more };
   }

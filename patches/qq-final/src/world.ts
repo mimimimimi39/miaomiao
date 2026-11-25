@@ -483,12 +483,10 @@ export class QQWorld implements World {
     }
   }
 
-  /** QZONE 相关 action 优先走网页协议桥接（127.0.0.1:8090），失败再回退 NapCat。 */
+  /** QZONE 读接口走原生；写接口优先网页协议桥接（127.0.0.1:8090），失败再回退原生。 */
   private async qzoneCallApi(action: string, params: Record<string, unknown>): Promise<unknown> {
     const webActions = [
-      'get_qzone_msg_detail',
       'comment_qzone',
-      'get_qzone_feeds',
       'send_qzone_msg',
       'delete_qzone_msg',
       'like_qzone',
@@ -3219,7 +3217,12 @@ export class QQWorld implements World {
             const num = typeof args.num === 'number' && Number.isFinite(args.num) ? Math.max(1, Math.min(50, args.num)) : 5;
             const r = await this.qzone.getFeeds(num);
             if (!r.ok) return `获取动态列表失败：${r.error ?? '未知错误'}`;
-            return `${externalDataBlock('QQ 空间动态资料', `最近 ${num} 条动态：\n${JSON.stringify(r.feeds ?? []).slice(0, 2000)}`)}\n（每条含 tid/uin；用 qq_qzone(action=reply, tid=该条tid) 对好友动态发表评论；用 qq_qzone(action=detail, tid=该条tid, uin=该条uin) 查看该动态的详情与全部评论）`;
+            const lines = (r.feeds ?? []).map((f) => {
+              const item = f as Record<string, unknown>;
+              const when = typeof item.time === 'number' ? new Date(item.time * 1000).toLocaleString('zh-CN', { hour12: false }) : '';
+              return `- tid=${item.tid ?? '?'} uin=${item.uin ?? '?'} ${item.nickname ?? ''} ${when}：${item.text ?? ''}`;
+            }).join('\n');
+            return `${externalDataBlock('QQ 空间动态资料', `最近 ${num} 条动态：\n${lines}`)}\n（每条含 tid/uin；用 qq_qzone(action=reply, tid=该条tid) 对好友动态发表评论；用 qq_qzone(action=detail, tid=该条tid, uin=该条uin) 查看该动态的详情与全部评论）`;
           }
           case 'detail': {
             const tid = String(args.tid ?? '');
