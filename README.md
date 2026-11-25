@@ -13,7 +13,7 @@
 ## v1.0.3
 
 - 公开人设移除破甲和画图越狱提示，只保留适合公开展示的部分。
-- ps：如对相关提示词有所需求请前往(https://github.com/mimimimimi39/Prompt_Engineering)自行选择添加。
+- ps：如对相关提示词有所需求请前往（https://github.com/mimimimimi39/Prompt_Engineering）自行选择添加。
 
 ---
 
