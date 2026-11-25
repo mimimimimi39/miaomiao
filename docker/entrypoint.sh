@@ -6,6 +6,8 @@ cd /app/Cortico
 BOT="${CORTICO_BOT:-mybot}"
 HOST="${CORTICO_HOST:-0.0.0.0}"
 PORT="${CORTICO_PORT:-7788}"
+# 容器启动和重启后直接投递事件；上游默认 paused=1，会一直停在暂停状态。
+export CORTICO_START_PAUSED="${CORTICO_START_PAUSED:-0}"
 
 QZONE_LOG="${QZONE_LOG:-/app/Cortico/deployments/$BOT/data/qzone_web.log}"
 export QZONE_LOG

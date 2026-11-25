@@ -4,7 +4,13 @@
 
 基于 [Cortico](https://github.com/Pal-AI-Lab/Cortico) 框架 + [NapCat](https://github.com/NapNeko/NapCatQQ)（Node 版）协议端。
 
-当前版本：**v1.0.1**（2026-11-25）。
+当前版本：**v1.0.2**（2026-11-25）。
+
+---
+
+## v1.0.2
+
+- 启动时设置 `CORTICO_START_PAUSED=0`，启动和重启后直接投递事件；否则上游默认暂停，WebUI 显示「已暂停」、QQ 消息不回复。
 
 ---
 
