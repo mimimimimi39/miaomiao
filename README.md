@@ -4,7 +4,13 @@
 
 基于 [Cortico](https://github.com/Pal-AI-Lab/Cortico) 框架 + [NapCat](https://github.com/NapNeko/NapCatQQ)（Node 版）协议端。
 
-当前版本：**v1.0.2**（2026-11-25）。
+当前版本：**v1.0.3**（2026-11-25）。
+
+---
+
+## v1.0.3
+
+- 公开人设移除成人向内容和画图越狱提示，只保留适合公开展示的部分。
 
 ---
 
