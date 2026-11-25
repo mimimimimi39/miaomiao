@@ -3861,9 +3861,16 @@ export class QQWorld implements World {
         },
         required: ['group', 'mode'],
       },
-      handler: async (args) => {
+      handler: async (args, ctx) => {
         const raw = String(args.group ?? '').trim();
         const mode = String(args.mode ?? '').trim();
+        const role = String(ctx?.role ?? '');
+        if (/^(group|private):/.test(role)) {
+          const address = activeAdminConversation();
+          const caller = address ? this.callerByConv.get(address) : undefined;
+          const fresh = caller && Date.now() - caller.at < 120_000 ? caller : undefined;
+          if (!fresh || fresh.userId !== this.config.owner) return '群的发言模式只有主人能改；其他人提这个要求就礼貌拒绝。';
+        }
         if (!raw) return 'group 不能为空。';
         let groupId = /^\d{5,12}$/.test(raw) ? Number(raw) : 0;
         if (!groupId && this.identity) {
